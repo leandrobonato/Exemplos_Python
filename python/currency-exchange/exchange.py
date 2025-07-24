@@ -15,7 +15,7 @@ def exchange_money(budget, exchange_rate):
     :return: float - exchanged value of the foreign currency you can receive.
     """
 
-    pass
+    return budget / exchange_rate
 
 
 def get_change(budget, exchanging_value):
@@ -26,7 +26,7 @@ def get_change(budget, exchanging_value):
     :return: float - amount left of your starting currency after exchanging.
     """
 
-    pass
+    return budget - exchanging_value
 
 
 def get_value_of_bills(denomination, number_of_bills):
@@ -37,7 +37,7 @@ def get_value_of_bills(denomination, number_of_bills):
     :return: int - calculated value of the bills.
     """
 
-    pass
+    return number_of_bills * denomination
 
 
 def get_number_of_bills(amount, denomination):
@@ -48,7 +48,7 @@ def get_number_of_bills(amount, denomination):
     :return: int - number of bills that can be obtained from the amount.
     """
 
-    pass
+    return int(amount / denomination)
 
 
 def get_leftover_of_bills(amount, denomination):
@@ -58,8 +58,7 @@ def get_leftover_of_bills(amount, denomination):
     :param denomination: int - the value of a single bill.
     :return: float - the amount that is "leftover", given the current denomination.
     """
-
-    pass
+    return amount - ((amount // denomination) * denomination)
 
 
 def exchangeable_value(budget, exchange_rate, spread, denomination):
@@ -71,5 +70,17 @@ def exchangeable_value(budget, exchange_rate, spread, denomination):
     :param denomination: int - the value of a single bill.
     :return: int - maximum value you can get.
     """
-
-    pass
+    spread_decimal = spread / 100
+    actual_exchange_rate = exchange_rate * (1 + spread_decimal)
+    
+    # Step 2: Calculate the total amount of new currency you can get
+    total_new_currency = budget / actual_exchange_rate
+    
+    # Step 3: Truncate the total_new_currency to the nearest whole number divisible by denomination
+    max_denomination_units = int(total_new_currency // denomination)  
+    
+    # Number of full denominations
+    max_exchanged_value = max_denomination_units * denomination       
+    
+    # Total value in new currency
+    return max_exchanged_value
